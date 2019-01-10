@@ -46,6 +46,35 @@ function UserPinList () {
 	
 	this.userpinlist = [];
 
+	this.loadfromfile = function () {
+
+
+	}
+
+	this.saveToFile = function () {
+
+		var data = "";
+		for (var i = 0; i < this.userpinlist.length; i++) {
+			var tempuser = this.userpinlist[i].getUser();
+			data += tempuser.getUsername() + " " + tempuser.getName() + " " + this.userpinlist[i].getPin() + "\n";
+		}
+
+		let buffer = new Buffer.from(data);
+    	const fs = require('fs');
+
+    	fs.open('users.txt', 'w+', (err, fd) => {
+    		if (err) 
+    			throw err;
+    		fs.write(fd, buffer, 0, buffer.length, null, function(err) {
+    		    if (err) 
+    		    	throw 'error writing file: ' + err;
+    		    fs.close(fd, function () {
+    			    console.log("wrote to file successfully");
+    		    });
+    	    });
+    	});
+	}
+
 	this.addPair = function (user1, pass1) {
 		var upp = new UserPinPair(user1, pass1);
 		this.userpinlist.push(upp);

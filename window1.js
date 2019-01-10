@@ -18,4 +18,6 @@ console.log(user1);
 console.log(upp1);
 console.log(uplist);
 
+uplist.saveToFile();
+
 

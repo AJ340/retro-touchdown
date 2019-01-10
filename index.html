@@ -13,20 +13,6 @@
     <script src="./window1.js"></script>
 
     <script> 
-    	let buffer = new Buffer.from("This is a test sentence.");
-    	const fs = require('fs');
-
-    	fs.open('test.txt', 'w+', (err, fd) => {
-    		if (err) 
-    			throw err;
-    		fs.write(fd, buffer, 0, buffer.length, null, function(err) {
-    		    if (err) 
-    		    	throw 'error writing file: ' + err;
-    		    fs.close(fd, function () {
-    			    console.log("wrote to file successfully");
-    		    });
-    	    });
-    	});
 
     </script>
   </body>
