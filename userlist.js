@@ -20,10 +20,10 @@ function User(un, n)  {
     }
 }
 
-function UserPasswordPair (user, pw) {
+function UserPinPair (user, pin) {
 
 	this.user = new User(user.getUsername(), user.getName())
-	this.password = pw
+	this.pin = pin
 
 	this.getUser = function() {
 		return this.user;
@@ -33,32 +33,32 @@ function UserPasswordPair (user, pw) {
 		this.user = user1;
 	}
 
-    this.getPw = function() {
-		return this.password;
+    this.getPin = function() {
+		return this.pin;
 	}
 
-	this.setPw = function(pw1) {
-		this.password = pw1;
+	this.setPin = function(pin1) {
+		this.pin = pin1;
 	}
 }
 
-function UserPwList () {
+function UserPinList () {
 	
-	this.userpwlist = [];
+	this.userpinlist = [];
 
 	this.addPair = function (user1, pass1) {
-		var upp = new UserPasswordPair(user1, pass1);
-		this.userpwlist.push(upp);
+		var upp = new UserPinPair(user1, pass1);
+		this.userpinlist.push(upp);
 	}
 
-	this.addUPPair = function(userpwpair1) {
-		this.userpwlist.push(userpwpair1);
+	this.addUPPair = function(userpinpair1) {
+		this.userpinlist.push(userpinpair1);
 	}
 
 	this.removePair = function(user1) {
-		for (var i = 0; i < this.userpwlist.length; i++) {
-			if (user1.getUserName() == this.userpwlist[i].getUserName())
-				this.userpwlist.splice(i,1);
+		for (var i = 0; i < this.userpinlist.length; i++) {
+			if (user1.getUsername() == this.userpinlist[i].getUser().getUsername())
+				this.userpinlist.splice(i,1);
 		}
 	}
 }
