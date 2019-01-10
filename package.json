@@ -1,0 +1,13 @@
+{
+  "name": "touchdown",
+  "version": "0.0.1",
+  "description": "Retro games management system",
+  "main": "main.js",
+  "author": "ajcodes",
+  "scripts": {
+  "start": "electron ."
+  },
+  "devDependencies": {
+  "electron": "^4.0.1"
+  }
+}
