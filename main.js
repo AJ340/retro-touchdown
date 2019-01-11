@@ -1,24 +1,98 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Menu} = require('electron');
 
-function createWindow () {
+let mainWindow;
+let addItemWindow;
+
+
+
+function createMainWindow () {
   // Create the browser window.
-  win = new BrowserWindow({ width: 800, height: 600 })
+  mainWindow = new BrowserWindow({ width: 800, height: 600 })
 
   // and load the index.html of the app.
-  win.loadFile('index.html')
+  mainWindow.loadFile('index.html');
 
   //
-  win.webContents.openDevTools()
+  //mainWindow.webContents.openDevTools();
 
-  win.on('closed', () => {
+  mainWindow.on('closed', function() {
   	// Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
+    app.quit();
     win = null
+  });
+
+  //Build menu from template
+  const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
+  Menu.setApplicationMenu(mainMenu);
+}
+
+function createAddItemWindow () {
+  // Create the browser window.
+  addItemWindow = new BrowserWindow({ width: 300, height: 200 })
+
+  // and load the index.html of the app.
+  addItemWindow.loadFile('addItem.html');
+
+ // Garbage collection handle
+  addItemWindow.on('close', function() {
+    addItemWindow = null;
   })
 }
 
-app.on('ready', createWindow)
+//Create menu template
+var mainMenuTemplate = [
+  {
+    label:'File',
+    submenu: [
+      {
+        label: 'Add Item',
+        click() {
+          createAddItemWindow();
+        }
+      },
+      {
+        label: 'Edit Item'
+      },
+      {
+        label: 'Quit',
+        accelerator: process.platform == "darwin" ? "Command+Q" : "Ctrl&Q",
+        click() {
+          app.quit();
+        }
+      }
+    ]
+  }
+];
+
+// If mac add empty object to menu
+/*if (process.platform == "darwin")
+{
+  mainMenuTemplate.unshift({});
+}*/
+
+if (process.env.NODE_ENV !== "production")
+{
+  mainMenuTemplate.push({
+    label: "Developer Tools",
+    submenu: [
+      {
+        label: "Toggle DevTools",
+        accelerator: process.platform == "darwin" ? "Command+I" : "Ctrl&I",
+        click(item, focusedWindow){
+          focusedWindow.toggleDevTools();
+        }
+      },
+      {
+        role:'reload'
+      }
+    ]
+  });
+}
+
+
+app.on('ready', createMainWindow);
 
 /*
 // Quit when all windows are closed.
