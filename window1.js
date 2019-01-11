@@ -1,5 +1,5 @@
 
-
+/*
 var user1 = new User("aj340", "Andres");
 var user2 = new User("nunu123", "Marcos");
 var user3 = new User("ejcrazy", "Elijah");
@@ -19,5 +19,13 @@ console.log(upp1);
 console.log(uplist);
 
 uplist.saveToFile();
+uplist.loadFromFile();
+*/
 
+var uplist = new UserPinList();
 
+uplist.loadFromFile();
+
+console.log(uplist);
+
+uplist.saveToFile();

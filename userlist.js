@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 
 function User(un, n)  {
 	this.username = un
@@ -46,9 +48,16 @@ function UserPinList () {
 	
 	this.userpinlist = [];
 
-	this.loadfromfile = function () {
+	this.loadFromFile = function () {
+		var contents = fs.readFileSync("users.txt", "utf8");
+		var splitcontents = contents.split("\n");
+	    this.userpinlist = [];
 
-
+		for (var i = 0; i < splitcontents.length; i++) {
+			splitcontents[i] = splitcontents[i].split(" ");
+		    var tempUser = new User(splitcontents[i][0], splitcontents[i][1]);
+	    	this.addPair(tempUser, splitcontents[i][2]);
+		}
 	}
 
 	this.saveToFile = function () {
@@ -56,23 +65,13 @@ function UserPinList () {
 		var data = "";
 		for (var i = 0; i < this.userpinlist.length; i++) {
 			var tempuser = this.userpinlist[i].getUser();
-			data += tempuser.getUsername() + " " + tempuser.getName() + " " + this.userpinlist[i].getPin() + "\n";
+			data += tempuser.getUsername() + " " + tempuser.getName() + " " + this.userpinlist[i].getPin();
+			if (i != this.userpinlist.length-1)
+				data+="\n";
 		}
 
-		let buffer = new Buffer.from(data);
-    	const fs = require('fs');
 
-    	fs.open('users.txt', 'w+', (err, fd) => {
-    		if (err) 
-    			throw err;
-    		fs.write(fd, buffer, 0, buffer.length, null, function(err) {
-    		    if (err) 
-    		    	throw 'error writing file: ' + err;
-    		    fs.close(fd, function () {
-    			    console.log("wrote to file successfully");
-    		    });
-    	    });
-    	});
+    	fs.writeFileSync("users.txt", data);
 	}
 
 	this.addPair = function (user1, pass1) {
