@@ -1,4 +1,7 @@
 
+// This file is mainly used for testing and stuff
+
+
 /*
 var user1 = new User("aj340", "Andres");
 var user2 = new User("nunu123", "Marcos");
@@ -22,6 +25,7 @@ uplist.saveToFile();
 uplist.loadFromFile();
 */
 
+/*
 var uplist = new UserPinList();
 
 uplist.loadFromFile();
@@ -29,3 +33,26 @@ uplist.loadFromFile();
 console.log(uplist);
 
 uplist.saveToFile();
+*/
+
+/*
+var savefiles1 = ["./Super Mario Bros (E).sav", "./Super Mario Bros (E).sa1"]
+var game1 = new RetroGame("Super Mario Bros (E)", "./Super Mario Bros (E).nes", savefiles1);
+//var savefiles2 = ["./Kirbys Adventure (E).sav", "./Kirbys Adventure (E).sa1"]
+//var game2 = new RetroGame("Kirbys Adventure (E)", "./Kirbys Adventure (E).nes", savefiles2);
+var gameslist = new RetroGames();
+gameslist.addGame(game1);
+//gameslist.addGame(game2);
+
+console.log(gameslist);
+
+gameslist.saveToFile();
+*/
+
+/*
+var gameslist = new RetroGames();
+gameslist.loadFromFile();
+console.log(gameslist);
+*/
+
+

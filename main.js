@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu} = require('electron');
+const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 
 let mainWindow;
 let addItemWindow;
@@ -40,6 +40,13 @@ function createAddItemWindow () {
     addItemWindow = null;
   })
 }
+
+//Catch item:add
+ipcMain.on("item:add", function (event, item) {
+  console.log(item);
+  mainWindow.webContents.send("item:add", item);
+  addItemWindow.close();
+});
 
 //Create menu template
 var mainMenuTemplate = [
@@ -90,6 +97,8 @@ if (process.env.NODE_ENV !== "production")
     ]
   });
 }
+
+
 
 
 app.on('ready', createMainWindow);

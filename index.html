@@ -6,13 +6,31 @@
   </head>
   <body>
     <h1>Hello World!</h1>
-    We are using node <script>document.write(process.versions.node)</script>,
+    <p> We are using node <script>document.write(process.versions.node)</script>,
     Chrome <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+    and Electron <script>document.write(process.versions.electron)</script>. 
+    </p>
+    <ul></ul>
+    
+    <!--
     <script src="./userlist.js"></script>
     <script src="./window1.js"></script>
-
+    -->
+    <script src="./retro-gamelist.js"></script>
+    <script src="./window1.js"></script>
     <script> 
+        const electron = require('electron');
+        const {ipcRenderer} = electron;
+        const ul = document.querySelector("ul");
+
+        ipcRenderer.on("item:add", function (event, item) {
+            const li = document.createElement("li");
+            const itemText = document.createTextNode(item);
+            li.appendChild(itemText);
+            ul.appendChild(li);
+        });
+
+
 
     </script>
   </body>
