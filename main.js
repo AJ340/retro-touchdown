@@ -1,7 +1,7 @@
 const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 
 let mainWindow;
-let addItemWindow;
+let addGameWindow;
 
 
 
@@ -28,24 +28,24 @@ function createMainWindow () {
   Menu.setApplicationMenu(mainMenu);
 }
 
-function createAddItemWindow () {
+function createAddGameWindow () {
   // Create the browser window.
-  addItemWindow = new BrowserWindow({ width: 300, height: 200 })
+  addGameWindow = new BrowserWindow({ width: 300, height: 200 })
 
   // and load the index.html of the app.
-  addItemWindow.loadFile('addItem.html');
+  addGameWindow.loadFile('addGame.html');
 
  // Garbage collection handle
-  addItemWindow.on('close', function() {
-    addItemWindow = null;
+  addGameWindow.on('close', function() {
+    addGameWindow = null;
   })
 }
 
 //Catch item:add
-ipcMain.on("item:add", function (event, item) {
-  console.log(item);
-  mainWindow.webContents.send("item:add", item);
-  addItemWindow.close();
+ipcMain.on("game:add", function (event, game) {
+  console.log(game);
+  mainWindow.webContents.send("game:add", game);
+  addGameWindow.close();
 });
 
 //Create menu template
@@ -54,13 +54,13 @@ var mainMenuTemplate = [
     label:'File',
     submenu: [
       {
-        label: 'Add Item',
+        label: 'Add Game',
         click() {
-          createAddItemWindow();
+          createAddGameWindow();
         }
       },
       {
-        label: 'Edit Item'
+        label: 'Edit Game'
       },
       {
         label: 'Quit',

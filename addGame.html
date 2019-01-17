@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Add Game</title>
+  </head>
+  <body>
+    <form>
+      <div>
+        <label> Enter Game Info </label>
+        <input type="file" id="game" autofocus>
+        <input type="file" id="save" autofocus>
+
+      </div>
+      <button type="submit"> Add Game </button>
+    </form>
+
+    <script src="./retro-gamelist.js"></script>
+
+    <script>
+
+      const electron = require('electron');
+      const {ipcRenderer} = electron;
+
+      const form = document.querySelector("form");
+      form.addEventListener("submit", submitForm);
+
+      function submitForm(event1) {
+        event1.preventDefault();
+        var error = 0;
+        if ( !document.getElementById("game").value) {
+          alert("Please specify a game file.");
+          error = 1;
+        }
+
+        if ( !document.getElementById("save").value) {
+          alert("Please specify a corresponding save file.");
+          error = 1;
+        }
+
+        if (error)
+          return;
+        
+        const gameinput = document.getElementById("game").files[0];
+
+        const save = [document.getElementById("save").files[0].path];
+        const game = gameinput.path;
+        const gamename = gameinput.name.replace(/\.[^/.]+$/, "");
+
+        var retrogame = new RetroGame(gamename, game, save);
+        console.log(retrogame);
+
+        ipcRenderer.send("game:add", retrogame);
+      }
+    </script>
+
+
+
+  </body>
+    <script> 
+
+    </script>
+  </body>
+</html>

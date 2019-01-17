@@ -35,6 +35,10 @@ function RetroGame(name, rom, savefiles)  {
 function RetroGames() {
 	this.retrogames = []
 
+	this.getLength = function () {
+		return this.retrogames.length;
+	}
+
 	this.getRetrogames = function () {
 		return this.retrogames;
 	}

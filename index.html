@@ -10,6 +10,13 @@
     Chrome <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>. 
     </p>
+    <table id="gamestable">
+        <tr id=>
+            <th> Game Name </th>
+            <th> Game Path </th>
+            <th> Game Save </th>
+        </tr>
+    </table>
     <ul></ul>
     
     <!--
@@ -23,11 +30,30 @@
         const {ipcRenderer} = electron;
         const ul = document.querySelector("ul");
 
-        ipcRenderer.on("item:add", function (event, item) {
-            const li = document.createElement("li");
-            const itemText = document.createTextNode(item);
-            li.appendChild(itemText);
-            ul.appendChild(li);
+        var retrogamelist = new RetroGames();
+
+
+        ipcRenderer.on("game:add", function (event, game) {
+            retrogamelist.addGameRaw(game.name, game.rom, game.savefiles);
+            var currentGame = new RetroGame(game.name, game.rom, game.savefiles);
+            console.log(currentGame);
+            tablebody = document.getElementById("gamestable");
+
+            const tablerow = document.createElement("tr");
+            tablerow.id = "game-" + (retrogamelist.getLength()-1);
+            const cell1 = document.createElement("td");
+            const cell2 = document.createElement("td");
+            const cell3 = document.createElement("td");
+            const textCell1 = document.createTextNode(currentGame.getName());
+            const textCell2 = document.createTextNode(currentGame.getRom());
+            const textCell3 = document.createTextNode(currentGame.getSavefiles()[0]);
+            cell1.appendChild(textCell1);
+            cell2.appendChild(textCell2);
+            cell3.appendChild(textCell3);
+            tablerow.appendChild(cell1);
+            tablerow.appendChild(cell2);
+            tablerow.appendChild(cell3);
+            tablebody.appendChild(tablerow);
         });
 
 
