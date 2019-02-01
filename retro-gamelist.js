@@ -5,6 +5,8 @@ function RetroGame(name, rom, savefiles)  {
 	this.name = name
 	this.rom = rom
 	this.savefiles = savefiles
+	this.available = true
+	this.checkedtime = new Date()
 
 
 	this.setName = function(name) {
@@ -30,13 +32,33 @@ function RetroGame(name, rom, savefiles)  {
     this.getSavefiles = function() {
 	    return this.savefiles;
     }
+
+    this.markCheckedTime = function() {
+	    this.checkedtime = new Date();
+    }
+
+    this.toggleAvailability = function() {
+	    if ( this.available )
+	    	this.available = false;
+	    else
+	    	this.available = true;
+	    this.markCheckedTime();
+    }
 }
 
 function RetroGames() {
-	this.retrogames = []
+	this.retrogames = {}
 
 	this.getLength = function () {
-		return this.retrogames.length;
+		return Object.keys(this.retrogames).length;
+	}
+
+	this.getKeys = function () {
+		return Object.keys(this.retrogames);
+	}
+
+	this.getValue = function (key) {
+		return this.retrogames[key];
 	}
 
 	this.getRetrogames = function () {
@@ -44,20 +66,28 @@ function RetroGames() {
 	}
 
 	this.setRetrogamesFromList = function (listofgames) {
-		this.retrogames = listofgames;
+		for (var i = 0; i < listofgames.length; i++) {
+			var currentGameName = listofgames[i].getName();
+			if ( !(currentGameName in this.retrogames) ) {
+				this.retrogames[currentGameName] = listofgames[i];
+			}
+		}
 	}
 
 	this.addGame = function (game) {
-		this.retrogames.push(game);
+		if ( !(game.getName() in this.retrogames) )
+			this.retrogames[game.getName()] = game;
 	}
 
 	this.addGameRaw = function (name, rom, savefiles) {
 		var game1 = new RetroGame(name, rom, savefiles);
-		this.retrogames.push(game1);
+
+		if ( !(game1.getName() in this.retrogames) )
+			this.retrogames[game1.getName()] = game1;
 	}
 
-	this.removeGame = function (i) {
-		this.retrogames.splice(i, 1);
+	this.removeGame = function (key) {
+		delete this.retrogames[key];
 	}
 
 	this.loadFromFile = function () {
@@ -65,7 +95,7 @@ function RetroGames() {
 		var splitcontents = contents.split("\n");
 		console.log(contents);
 
-	    this.retrogames = [];
+	    this.retrogames = {};
 
 		for (var i = 0; i < splitcontents.length; i++) {
 			splitcontents[i] = splitcontents[i].split("|");
@@ -77,8 +107,9 @@ function RetroGames() {
 	this.saveToFile = function () {
 
 		var data = "";
-		for (var i = 0; i < this.retrogames.length; i++) {
-			var tempgame = this.retrogames[i];
+		var allkeys = Object.keys(this.retrogames)
+		for (var i = 0; i < allkeys.length; i++) {
+			var tempgame = this.retrogames[allkeys[i]];
 			data += tempgame.getName() + "|" + tempgame.getRom() + "|";
 			var tempSavefiles = tempgame.getSavefiles();
 			for (var j = 0; j < tempSavefiles.length; j++) {
