@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Add Games</title>
+  </head>
+  <body>
+    <form>
+      <div>
+        <label> Enter Games Location </label> <br>
+        <input type="file" id="gamesfolder" multiple webkitdirectory autofocus>
+
+      </div>
+      <button type="submit"> Add Games </button>
+    </form>
+
+    <script src="./retro-gamelist.js"></script>
+
+    <script>
+      const electron = require('electron');
+      const {ipcRenderer} = electron;
+
+
+      const form = document.querySelector("form");
+      form.addEventListener("submit", submitFolder);
+
+      function submitFolder(event1) {
+        event1.preventDefault();
+        var error = 0;
+        if ( !document.getElementById("gamesfolder").value) {
+          alert("Please specify a game folder.");
+          error = 1;
+        }
+
+        if (error)
+          return;
+
+        const folder = document.getElementById("gamesfolder").files[0].path;
+
+        /*
+        const gameinput = document.getElementById("game").files[0];
+
+        const save = [document.getElementById("save").files[0].path];
+        const game = gameinput.path;
+        const gamename = gameinput.name.replace(/\.[^/.]+$/, "");
+
+        var retrogame = new RetroGame(gamename, game, save);
+        console.log(retrogame);
+        */
+
+        ipcRenderer.send("game:addFolder", folder);
+      }
+    </script>
+
+
+
+  </body>
+    <script> 
+
+    </script>
+  </body>
+</html>

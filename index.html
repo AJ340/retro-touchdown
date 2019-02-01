@@ -34,20 +34,18 @@
 
         var retrogamelist = new RetroGames();
 
-
-        ipcRenderer.on("game:add", function (event, game) {
-            retrogamelist.addGameRaw(game.name, game.rom, game.savefiles);
+        function buildTable( retrogames_object ) {
             var old_tablebody = document.getElementById("gt-body");
             var new_tablebody = document.createElement("tbody");
             new_tablebody.id = "gt-body";
 
-            var allkeys = retrogamelist.getKeys();
+            var allkeys = retrogames_object.getKeys();
             console.log(allkeys);
             for (var i = 0; i < allkeys.length; i++ ) {
-                var currentGame = retrogamelist.getValue(allkeys[i]);
+                var currentGame = retrogames_object.getValue(allkeys[i]);
 
                 const tablerow = document.createElement("tr");
-                tablerow.id = "game-" + (retrogamelist.getLength()-1);
+                tablerow.id = "game-" + (retrogames_object.getLength()-1);
                 const cell1 = document.createElement("td");
                 const cell2 = document.createElement("td");
                 const cell3 = document.createElement("td");
@@ -64,28 +62,18 @@
             }
             old_tablebody.parentNode.replaceChild(new_tablebody, old_tablebody);
 
+        }
 
-            /*
-            var currentGame = new RetroGame(game.name, game.rom, game.savefiles);
-            console.log(currentGame);
-            tablebody = document.getElementById("gamestable");
 
-            const tablerow = document.createElement("tr");
-            tablerow.id = "game-" + (retrogamelist.getLength()-1);
-            const cell1 = document.createElement("td");
-            const cell2 = document.createElement("td");
-            const cell3 = document.createElement("td");
-            const textCell1 = document.createTextNode(currentGame.getName());
-            const textCell2 = document.createTextNode(currentGame.getRom());
-            const textCell3 = document.createTextNode(currentGame.getSavefiles()[0]);
-            cell1.appendChild(textCell1);
-            cell2.appendChild(textCell2);
-            cell3.appendChild(textCell3);
-            tablerow.appendChild(cell1);
-            tablerow.appendChild(cell2);
-            tablerow.appendChild(cell3);
-            tablebody.appendChild(tablerow);
-            */
+        ipcRenderer.on("game:add", function (event, game) {
+            retrogamelist.addGameRaw(game.name, game.rom, game.savefiles);
+            buildTable(retrogamelist);
+        });
+
+        ipcRenderer.on("game:addFolder", function (event, folder) {
+            retrogamelist.addFilesFromFolder(folder);
+            buildTable(retrogamelist);
+
         });
 
 

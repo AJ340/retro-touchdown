@@ -90,6 +90,16 @@ function RetroGames() {
 		delete this.retrogames[key];
 	}
 
+	this.addFilesFromFolder = function (folder) {
+		var result = fs.readdirSync(folder);
+		for (var i = 0; i < result.length; i++) {
+			gamename = result[i].replace(/\.[^/.]+$/, "");
+			gamerom = folder + "/" + result[i];
+			gamesave = "";
+			this.addGameRaw(gamename, gamerom, gamesave);
+		}
+	}
+
 	this.loadFromFile = function () {
 		var contents = fs.readFileSync("games.txt", "utf8");
 		var splitcontents = contents.split("\n");
