@@ -13,7 +13,8 @@
     <table id="gamestable">
         <thead id="gt-header">
             <th> Game Name </th>
-            <th> Game Path </th>
+            <th> Game Extension </th>
+            <th> Game Folder </th>
             <th> Game Save </th>
         </thead>
         <tbody id="gt-body">  
@@ -49,15 +50,19 @@
                 const cell1 = document.createElement("td");
                 const cell2 = document.createElement("td");
                 const cell3 = document.createElement("td");
+                const cell4 = document.createElement("td");
                 const textCell1 = document.createTextNode(currentGame.getName());
-                const textCell2 = document.createTextNode(currentGame.getRom());
-                const textCell3 = document.createTextNode(currentGame.getSavefiles()[0]);
+                const textCell2 = document.createTextNode(currentGame.getExt());
+                const textCell3 = document.createTextNode(currentGame.getGamePath());
+                const textCell4 = document.createTextNode(currentGame.getSavefiles()[0]);
                 cell1.appendChild(textCell1);
                 cell2.appendChild(textCell2);
                 cell3.appendChild(textCell3);
+                cell4.appendChild(textCell4);
                 tablerow.appendChild(cell1);
                 tablerow.appendChild(cell2);
                 tablerow.appendChild(cell3);
+                tablerow.appendChild(cell4);
                 new_tablebody.appendChild(tablerow);
             }
             old_tablebody.parentNode.replaceChild(new_tablebody, old_tablebody);
@@ -66,7 +71,7 @@
 
 
         ipcRenderer.on("game:add", function (event, game) {
-            retrogamelist.addGameRaw(game.name, game.rom, game.savefiles);
+            retrogamelist.addGameRaw(game.name, game.extension, game.absgamepath, game.savefiles);
             buildTable(retrogamelist);
         });
 
