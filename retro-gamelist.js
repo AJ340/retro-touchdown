@@ -42,6 +42,10 @@ function RetroGame(name, extension, absgamepath, savefiles)  {
 	    return this.savefiles;
     }
 
+    this.addSavefile = function( aSavefile) {
+	    this.savefiles.push(aSavefile);
+    }
+
     this.markCheckedTime = function() {
 	    this.checkedtime = new Date();
     }
@@ -134,6 +138,13 @@ function RetroGames() {
     	return false;
     }
 
+    this.isSave = function (extension) {
+    	ext = extension.toLowerCase();
+    	if ( ext == "sav" )
+    		return true;
+    	return false;
+    }
+
     this.addFilesFromFolder = function (folder) {
     	var result = fs.readdirSync(folder, {
 			withFileTypes: "true"
@@ -147,10 +158,20 @@ function RetroGames() {
 				if ( this.isRom(gameext) ) {
 					var gamename = this.getFilename(currentItem.name);
 			   	 	var absgamepath = folder + "/" + currentItem.name;
-			   		var gamesave = "";
+			   		var gamesave = [];
 			    	this.addGameRaw(gamename, gameext, absgamepath, gamesave);
 				}
+			}
+		}
 
+		for (var i = 0; i < result.length; i++) {
+			var currentItem = result[i];
+			if ( currentItem.isFile() ) {
+				var gameext = this.getExtension(currentItem.name);
+				var filename = this.getFilename(currentItem.name);
+				if ( this.isSave(gameext) ) {
+					this.getValue(filename).addSavefile(folder+"/"+currentItem.name);
+				}
 			}
 		}
     }

@@ -2,6 +2,8 @@ const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 
 let mainWindow;
 let addGameWindow;
+let addGamesWindow;
+
 
 
 
@@ -41,11 +43,31 @@ function createAddGameWindow () {
   })
 }
 
+function createAddGamesWindow () {
+  // Create the browser window.
+  addGamesWindow = new BrowserWindow({ width: 300, height: 200 })
+
+  // and load the index.html of the app.
+  addGamesWindow.loadFile('addGames.html');
+
+ // Garbage collection handle
+  addGamesWindow.on('close', function() {
+    addGamesWindow = null;
+  })
+}
+
 //Catch item:add
 ipcMain.on("game:add", function (event, game) {
   console.log(game);
   mainWindow.webContents.send("game:add", game);
-  addGameWindow.close();
+  //addGameWindow.close();
+});
+
+//Catch item:add
+ipcMain.on("game:addFolder", function (event, folder) {
+  console.log(folder);
+  mainWindow.webContents.send("game:addFolder", folder);
+  //addGameWindow.close();
 });
 
 //Create menu template
@@ -57,6 +79,12 @@ var mainMenuTemplate = [
         label: 'Add Game',
         click() {
           createAddGameWindow();
+        }
+      },
+      {
+        label: 'Add Games',
+        click() {
+          createAddGamesWindow();
         }
       },
       {
