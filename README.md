@@ -7,7 +7,8 @@ Application is intended to safely store Retro Games and Saves on a local server 
 Currently the server application has the functionality to parse the file system tree for eligible file types. They can be added to the application and displayed using a table in HTML.
 
 ### Screenshots
-This is what it looks like when the add games feature is used. User is prompted for a directory. [Add Games feature] (https://raw.githubusercontent.com/AJ340/retro-touchdown/master/Screenshots/Add%20Game%20Window.png].
+This is what it looks like when the add games feature is used. User is prompted for a directory. [Add Games feature] (![alt text](https://github.com/AJ340/retro-touchdown/blob/master/Screenshots/Add%20Game%20Window.png].
+
 
 This is what it looks like when imported into the application. [UI Populated] (https://raw.githubusercontent.com/AJ340/retro-touchdown/master/Screenshots/UI%20Post%20Add.png).
 
