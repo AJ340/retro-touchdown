@@ -10,7 +10,7 @@ Currently the server application has the functionality to parse the file system 
 This is what it looks like when the add games feature is used. User is prompted for a directory. ![Add Games feature](Screenshots/AddGameWindow.png).
 
 
-This is what it looks like when imported into the application. ![UI Populated](https://raw.githubusercontent.com/AJ340/retro-touchdown/master/Screenshots/UI%20Post%20Add.png).
+This is what it looks like when imported into the application. ![UI Populated](Screenshots/UIPostAdd.png).
 
 ### How to run
 Make sure Node is installed 
